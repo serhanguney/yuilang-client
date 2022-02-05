@@ -1,0 +1,10 @@
+{
+  "user": {
+    "isLoggedIn": false,
+    "userId": "uid",
+    "identityStatus": ""
+  },
+  "content": {
+    "session": {}
+  }
+}
