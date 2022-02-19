@@ -1,8 +1,23 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { initialiseLogin } from '../redux/identity';
-import { StyledButton } from 'yuivae';
+import UserInput from "../design/components/Input";
+import {Button, ButtonContainer} from "../design/components/buttons";
+import {SectionContainer} from "../design/components/containers";
+import styled from 'styled-components';
+import {spaces} from "../design/fixedValues";
+import {YuiTitle, YuiTitleLine} from "../design/components/YuiTitle";
 
+const StyledContainer = styled(SectionContainer)`
+	padding: ${spaces.large} ${spaces.small};
+	height: 100%;
+	h1{
+		text-align: center;
+	}
+`
+const StyledTitle = styled(YuiTitle)`
+	margin-top: auto;
+`
 interface LoginPageState {
 	email: string;
 	password: string;
@@ -29,27 +44,34 @@ class LogInPage extends React.Component<any, LoginPageState> {
 	}
 	render() {
 		return (
-			<div>
-				<form aria-labelledby={'login-form-title'}>
+			<StyledContainer>
+				<form aria-labelledby={'login-form-title'} onSubmit={e => this.handleSubmit(e)}>
 					<h1 id={'login-form-title'}>Login form</h1>
-					<input
+					<UserInput
 						type={'text'}
 						value={this.state.email}
-						onChange={(e) => this.handleChange(e)}
+						onChange={(e:React.ChangeEvent<HTMLInputElement>) => this.handleChange(e)}
 						name={'email'}
 						aria-label={'email'}
 					/>
-					<input
+					<UserInput
 						type={'password'}
 						value={this.state.password}
-						onChange={(e) => this.handleChange(e)}
+						onChange={(e:React.ChangeEvent<HTMLInputElement>) => this.handleChange(e)}
 						name={'password'}
 						aria-label={'password'}
 					/>
-					<StyledButton>OK</StyledButton>
-					<button onClick={(e) => this.handleSubmit(e)}>Login</button>
+					<ButtonContainer>
+						<Button appearance={'button'} type={'submit'}>Login</Button>
+					</ButtonContainer>
 				</form>
-			</div>
+				<StyledTitle hasFullLength={true}>
+					<p>
+						Product of <span>Yuivae</span>
+					</p>
+					<YuiTitleLine hasFullLength={false} />
+				</StyledTitle>
+			</StyledContainer>
 		);
 	}
 }

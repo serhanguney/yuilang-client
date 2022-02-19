@@ -43,6 +43,7 @@ export const initialiseLogin = (context: LoginProps) => async (dispatch: Dispatc
 			await getUserData(result.user.uid)(dispatch);
 			dispatch(completeLogin(result.user.uid));
 			history.push(`${HOME_PAGE_URL}`);
+			history.go(0);
 		} else {
 			dispatch(failLogin());
 		}
