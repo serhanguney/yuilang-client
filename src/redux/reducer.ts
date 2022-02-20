@@ -4,6 +4,7 @@ import { reducer as phraseRequest, ReducerState as RequestState } from './fireba
 import { reducer as content, ReducerState as ContentState } from './content';
 import { reducer as modal, ReducerState as ModalState, TriggerType } from './modal';
 import { reducer as exercise } from './practice';
+import {reducer as signupState, IState as ISignupState} from './signup';
 
 export type RootState = {
 	user: Identity;
@@ -11,11 +12,13 @@ export type RootState = {
 	content: ContentState;
 	modal: ModalState<TriggerType>;
 	exercise: any;
+	signupState: ISignupState
 };
 export const rootReducer = combineReducers({
 	user: retrieveIdentity,
 	request: phraseRequest,
 	content,
 	modal,
-	exercise
+	exercise,
+	signupState
 });

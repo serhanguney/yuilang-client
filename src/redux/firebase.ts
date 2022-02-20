@@ -44,7 +44,6 @@ function failRequest() {
 	};
 }
 
-//TODO get session and add it to state
 export const initialiseAddPhraseRequest: PhraseRequestType = (context) => async (dispatch) => {
 	dispatch(initialiseRequest());
 	// fetch

@@ -19,7 +19,6 @@ const failedContent = () => ({ type: CONTENT_FAILED });
 
 export const getUserData = (uid: string) => async (dispatch: Dispatch<ActionType<any>>) => {
 	dispatch(requestContent());
-
 	if (!uid) {
 		dispatch(failedContent());
 		return;

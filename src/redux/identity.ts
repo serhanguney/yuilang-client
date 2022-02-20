@@ -34,6 +34,7 @@ export const initialiseLogin = (context: LoginProps) => async (dispatch: Dispatc
 	}
 	try {
 		dispatch(requestLogin());
+
 		const response = await fetch('/login', {
 			method: 'POST',
 			body: JSON.stringify({ email, password })
