@@ -12,6 +12,7 @@ interface ModalProps {
 	onSelect: (val: any) => void;
 	onCompleteEdit: any;
 	user: Identity;
+	triggeredBy: string;
 }
 
 type ModalState = {
@@ -76,9 +77,6 @@ class Modal extends React.Component<ModalProps, ModalState> {
 	handleEdit(e: React.ChangeEvent<HTMLInputElement>, id: string) {
 		this.setState((prevState) => ({ modalItems: { ...prevState.modalItems, [id]: e.target.value } }));
 	}
-	handleSubmit() {
-		console.log('submitted');
-	}
 
 	render(): JSX.Element {
 		const { closeModal } = this.props;
@@ -108,17 +106,18 @@ class Modal extends React.Component<ModalProps, ModalState> {
 							<label>{modalItem}</label>
 							{isBeingEdited && (
 								<button style={{ zIndex: 999 }} onClick={this.completeEdit.bind(this)}>
-									complete
+									Add
 								</button>
 							)}
 						</ModalItem>
 					);
 				})}
-				<ButtonContainer>
+				{this.props.triggeredBy === 'category' && <ButtonContainer>
 					<Button appearance={'submit'} onClick={this.addModalItem.bind(this)} disabled={!!this.state.isEditable.id}>
-						+
+						Add new category
 					</Button>
-				</ButtonContainer>
+				</ButtonContainer> }
+
 			</ModalContainer>
 		);
 	}
@@ -130,6 +129,7 @@ const actionCreators = {
 
 const mapStateToProps = (state: RootState) => ({
 	modalItems: state.modal.modalItems,
+	triggeredBy: state.modal.triggeredBy,
 	user: state.user
 });
 export default connect(mapStateToProps, actionCreators)(Modal);

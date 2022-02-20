@@ -1,6 +1,5 @@
 // SECTIONS
 
-export const PROGRESS_SECTION = 'Progress';
 export const PRACTICE_SECTION = 'Practice';
 export const VOCABULARY_SECTION = 'Vocabulary';
 

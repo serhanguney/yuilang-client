@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { YuiTitle, YuiTitleLine } from '../../design/components/YuiTitle';
 import { Navbar, NavbarActions } from '../../design/components/Navbar';
+import {MainSection} from '../../design/components/containers';
 import SectionBar from './NavigationBar';
 import { Route } from 'react-router-dom';
 import { HOME_PAGE_URL } from '../../utils/constants';
@@ -9,7 +10,7 @@ import SectionsBoundary from './NavigationsBoundary';
 export default class Dashboard extends React.Component {
 	render() {
 		return (
-			<section id={'main'}>
+			<MainSection>
 				<Navbar>
 					<h2>YuiLang</h2>
 					<NavbarActions>
@@ -24,7 +25,7 @@ export default class Dashboard extends React.Component {
 					</p>
 					<YuiTitleLine hasFullLength={false} />
 				</YuiTitle>
-			</section>
+			</MainSection>
 		);
 	}
 }

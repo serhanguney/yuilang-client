@@ -154,7 +154,7 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
 		const { selections, showExercise } = this.state;
 
 		return (
-			<MainSection id={'practice-section'}>
+			<MainSection>
 				{this.props.modal.isModalOpen && (
 					<Modal onCompleteEdit={this.handleCompleteEdit.bind(this)} onSelect={this.handleSelection.bind(this)} />
 				)}
@@ -188,13 +188,12 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
 						}
 
 						return (
-							<>
-								<InfoLine
-									heading={option}
-									description={`Your practice progress in ${option} category`}
-									percentage={percentage}
-								/>
-							</>
+							<InfoLine
+								key={option}
+								heading={option}
+								description={`Your practice progress in ${option} category`}
+								percentage={percentage}
+							/>
 						);
 					})}
 				</SectionContainer>

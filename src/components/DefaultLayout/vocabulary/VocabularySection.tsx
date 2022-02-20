@@ -4,11 +4,11 @@ import {
 	initialiseAddPhraseRequest,
 	initialiseAddCategoryRequest,
 	PhraseRequestType,
-	CategoryRequestType
+	CategoryRequestType, CategoryRequestProps
 } from '../../../redux/firebase';
 import { RootState } from '../../../redux/reducer';
-import { ModalItemsType, ModalShowType, setModalItems, showModal, TriggerType } from '../../../redux/modal';
-import { ReducerState as ContentState } from '../../../redux/content';
+import { ModalItemsType, ModalShowType, setModalItems, showModal, TriggerType ,closeModal} from '../../../redux/modal';
+import {getUserData, ReducerState as ContentState, TGetUserData} from '../../../redux/content';
 import { ReducerState as ModalState } from '../../../redux/modal';
 import { Identity } from '../../../redux/identity';
 
@@ -53,9 +53,11 @@ interface VocabularyProps {
 	initialiseAddPhraseRequest: PhraseRequestType;
 	initialiseAddCategoryRequest: CategoryRequestType;
 	showModal: ModalShowType;
+	closeModal: ModalShowType;
 	content: ContentState;
 	modal: ModalState<keyof Selections>;
 	user: Identity;
+	getUserData: TGetUserData;
 }
 
 class VocabularySection extends React.Component<VocabularyProps, VocabularyState> {
@@ -221,6 +223,12 @@ class VocabularySection extends React.Component<VocabularyProps, VocabularyState
 		this.setState({ hasPhraseFocus: value });
 	}
 
+	async handleModalComplete(ctx: CategoryRequestProps){
+		this.props.initialiseAddCategoryRequest(ctx)
+		await this.props.getUserData(this.props.user.uid);
+		this.props.closeModal()
+	}
+
 	render(): JSX.Element {
 		const { selections } = this.state;
 		const isTypingDisabled = !(selections.type.value && selections.category.value);
@@ -228,7 +236,7 @@ class VocabularySection extends React.Component<VocabularyProps, VocabularyState
 			<MainSection>
 				{(this.state.hasPhraseFocus || this.props.modal.isModalOpen) && <Overlay />}
 				{this.props.modal.isModalOpen && (
-					<Modal onCompleteEdit={this.props.initialiseAddCategoryRequest} onSelect={this.handleSelection.bind(this)} />
+					<Modal onCompleteEdit={this.handleModalComplete.bind(this)} onSelect={this.handleSelection.bind(this)} />
 				)}
 				<SectionContainer>
 					<CategoryContainer>
@@ -273,7 +281,9 @@ const mapActionsToProps = {
 	initialiseAddPhraseRequest,
 	initialiseAddCategoryRequest,
 	setModalItems,
-	showModal
+	showModal,
+	closeModal,
+	getUserData
 };
 const mapStateToProps = (state: RootState) => ({
 	content: state.content,

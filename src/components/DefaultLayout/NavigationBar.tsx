@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { PROGRESS_SECTION, PRACTICE_SECTION, VOCABULARY_SECTION } from '../../utils/constants';
+import { PRACTICE_SECTION, VOCABULARY_SECTION } from '../../utils/constants';
 
 import { Tag } from '../../design/components/Tag';
 import { spaces } from '../../design/fixedValues';
 import styled from 'styled-components';
 import { HOME_PAGE_URL } from '../../utils/constants';
 
-const sections = [PROGRESS_SECTION, PRACTICE_SECTION, VOCABULARY_SECTION];
+const sections = [ PRACTICE_SECTION, VOCABULARY_SECTION];
 
 const SectionBarContainer = styled.div`
 	display: flex;
 	flex-direction: row;
+	justify-content: center;
 	margin: 0 auto ${spaces.large} auto;
 `;
 
@@ -21,7 +22,8 @@ const customTagStyle = {
 class NavigationBar extends React.Component<any, any> {
 	constructor(props: any) {
 		super(props);
-		const getSectionFromUrl = this.props.history.location.pathname.split('/').slice(1)[0];
+		const getSectionFromUrl = this.props.history.location.pathname.split('/').slice(1)[1];
+		console.log('@@', this.props.history)
 		this.state = {
 			currentSection: getSectionFromUrl
 		};

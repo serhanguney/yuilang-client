@@ -19,7 +19,7 @@ interface PhraseRequestProps {
 	type: string;
 	inEnglish: string;
 }
-interface CategoryRequestProps {
+export interface CategoryRequestProps {
 	category: string;
 	language: string;
 	uid: string;

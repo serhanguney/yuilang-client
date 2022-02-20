@@ -17,7 +17,8 @@ const requestContent = () => ({ type: CONTENT_REQUESTED });
 const receiveContent = (payload: any) => ({ type: CONTENT_RECEIVED, payload });
 const failedContent = () => ({ type: CONTENT_FAILED });
 
-export const getUserData = (uid: string) => async (dispatch: Dispatch<ActionType<any>>) => {
+export type TGetUserData = (uid: string) => (dispatch: Dispatch<ActionType<any>>) => void
+export const getUserData:TGetUserData = (uid) => async (dispatch) => {
 	dispatch(requestContent());
 	if (!uid) {
 		dispatch(failedContent());
