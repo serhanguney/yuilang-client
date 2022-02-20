@@ -1,62 +1,62 @@
-import {colors} from '../fixedValues';
-import {createGlobalStyle} from 'styled-components';
+import { colors } from '../fixedValues';
+import { createGlobalStyle } from 'styled-components';
 
 export type AppearanceNames = 'submit' | 'cancel' | 'regular' | 'button';
 type Elements = 'text' | 'background';
 type Colors = {
-    submit: string;
-    cancel: string;
-    regular: string;
-    button: string;
+  submit: string;
+  cancel: string;
+  regular: string;
+  button: string;
 };
 type CircleColors = {
-    textColor: string;
-    pathColor: string;
-    trailColor: string;
+  textColor: string;
+  pathColor: string;
+  trailColor: string;
 };
 type CircleType = {
-    regular: CircleColors;
-    submit: CircleColors;
+  regular: CircleColors;
+  submit: CircleColors;
 };
 type Theme = {
-    colors: {
-        text: Colors;
-        background: Colors;
-        circle: CircleType;
-    };
-    getAppearanceColor: Function;
+  colors: {
+    text: Colors;
+    background: Colors;
+    circle: CircleType;
+  };
+  getAppearanceColor: Function;
 };
 
 export const theme: Theme = {
-    colors: {
-        text: {
-            submit: colors.white,
-            cancel: colors.white,
-            regular: colors.primary,
-            button: colors.white
-        },
-        background: {
-            submit: colors.submit,
-            cancel: colors.cancel,
-            regular: colors.secondary,
-            button: colors.black
-        },
-        circle: {
-            regular: {
-                textColor: colors.primary,
-                pathColor: colors.primary,
-                trailColor: colors.secondary
-            },
-            submit: {
-                textColor: colors.primary,
-                pathColor: colors.submit,
-                trailColor: colors.secondary
-            }
-        }
+  colors: {
+    text: {
+      submit: colors.white,
+      cancel: colors.white,
+      regular: colors.primary,
+      button: colors.white,
     },
-    getAppearanceColor: function (appearance: AppearanceNames, element: Elements) {
-        return this.colors[element][appearance];
-    }
+    background: {
+      submit: colors.submit,
+      cancel: colors.cancel,
+      regular: colors.secondary,
+      button: colors.black,
+    },
+    circle: {
+      regular: {
+        textColor: colors.primary,
+        pathColor: colors.primary,
+        trailColor: colors.secondary,
+      },
+      submit: {
+        textColor: colors.primary,
+        pathColor: colors.submit,
+        trailColor: colors.secondary,
+      },
+    },
+  },
+  getAppearanceColor: function (appearance: AppearanceNames, element: Elements) {
+    return this.colors[element][appearance];
+  },
 };
 
 export const GlobalStyle = createGlobalStyle`

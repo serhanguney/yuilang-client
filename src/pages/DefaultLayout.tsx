@@ -5,13 +5,13 @@ import { HOME_PAGE_URL } from '../utils/constants';
 import Dashboard from '../components/DefaultLayout/Dashboard';
 
 class DefaultLayout extends React.Component<any, any> {
-	render() {
-		return (
-			<Switch>
-				<Route path={HOME_PAGE_URL} component={Dashboard} />
-			</Switch>
-		);
-	}
+  render() {
+    return (
+      <Switch>
+        <Route path={HOME_PAGE_URL} component={Dashboard} />
+      </Switch>
+    );
+  }
 }
 
 export default withRouter(DefaultLayout);
