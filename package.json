@@ -2,6 +2,7 @@
   "name": "yuivae",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://serhanguney.github.io/yuilang-client",
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
     "@testing-library/jest-dom": "^4.2.4",
@@ -25,7 +26,9 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "rm -rf build && react-scripts build",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "bootstrap": "rm -rf node_modules && rm -rf yarn.lock && yarn"
