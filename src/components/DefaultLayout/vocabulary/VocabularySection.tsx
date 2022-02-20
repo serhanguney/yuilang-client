@@ -25,6 +25,7 @@ import { Overlay } from '../../../design/components/Overlay';
 
 import { debounce } from '../../../utils/tools';
 import { LanguageLiterals, languages } from '../../../utils/fixedValues';
+import { REQUEST_URL } from '../../../utils/constants';
 
 //TYPES
 interface Selection {
@@ -113,7 +114,7 @@ class VocabularySection extends React.Component<VocabularyProps, VocabularyState
 
   async requestTranslation(phrase: string, targetLanguage: string) {
     try {
-      const response = await fetch('/translate', {
+      const response = await fetch(`${REQUEST_URL}/translate`, {
         method: 'POST',
         body: JSON.stringify({ phrase, targetLanguage }),
       });

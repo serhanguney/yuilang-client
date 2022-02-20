@@ -2,6 +2,7 @@ import { ActionType } from './commons';
 import { CONTENT_REQUESTED, CONTENT_RECEIVED, CONTENT_FAILED, CONTENT_IDLE } from './constants';
 import { Dispatch } from 'react';
 import { DatabaseModel } from '../conf/dataModel';
+import { REQUEST_URL } from '../utils/constants';
 
 export interface ReducerState {
   userContent: DatabaseModel | {};
@@ -25,7 +26,7 @@ export const getUserData: TGetUserData = (uid) => async (dispatch) => {
     return;
   }
   try {
-    const response: any = await fetch('/getSession', {
+    const response: any = await fetch(`${REQUEST_URL}/getSession`, {
       method: 'POST',
       body: JSON.stringify({ uid }),
     });

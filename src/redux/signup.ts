@@ -1,7 +1,7 @@
 import { SIGNUP_REQUESTED, SIGNUP_SUCCESSFUL, SIGNUP_FAILED, SIGNUP_IDLE } from './constants';
 import { Dispatch } from 'react';
 import { history } from '../index';
-import { LOGIN_PAGE_URL } from '../utils/constants';
+import { LOGIN_PAGE_URL, REQUEST_URL } from '../utils/constants';
 import { initialiseAddCategoryRequest } from './firebase';
 import { languages } from '../utils/fixedValues';
 
@@ -28,7 +28,7 @@ export const initialiseSignup: TInitialiseSignup = (ctx) => async (dispatch: Dis
   dispatch(signupRequested());
   try {
     const { email, password } = ctx;
-    const response = await fetch('/signUp', {
+    const response = await fetch(`${REQUEST_URL}/signUp`, {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });

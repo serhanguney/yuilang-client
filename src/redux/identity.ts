@@ -3,7 +3,7 @@ import { ActionType } from './commons';
 import { IDENTITY_REQUESTED, IDENTITY_RECEIVED, IDENTITY_FAILED, IDENTITY_IDLE } from './constants';
 import { history } from '../index';
 import { getUserData } from './content';
-import { HOME_PAGE_URL } from '../utils/constants';
+import { HOME_PAGE_URL, REQUEST_URL } from '../utils/constants';
 
 export type Identity = {
   uid: string;
@@ -41,7 +41,7 @@ export const initialiseLogin = (context: LoginProps) => async (dispatch: Dispatc
   try {
     dispatch(requestLogin());
 
-    const response = await fetch('/login', {
+    const response = await fetch(`${REQUEST_URL}/login`, {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
@@ -49,7 +49,7 @@ export const initialiseLogin = (context: LoginProps) => async (dispatch: Dispatc
       const result = await response.json();
       await getUserData(result.user.uid)(dispatch);
       dispatch(completeLogin(result.user.uid));
-      history.push(`${HOME_PAGE_URL}`);
+      history.push(`${HOME_PAGE_URL}/practice`);
       history.go(0);
     } else {
       dispatch(failLogin());
@@ -63,7 +63,7 @@ export const initialiseLogin = (context: LoginProps) => async (dispatch: Dispatc
 export const retrieveIdentity = () => async (dispatch: Dispatch<ActionType<string>>) => {
   dispatch(requestIdentity());
   try {
-    const response = await fetch('/getIdentity', {
+    const response = await fetch(`${REQUEST_URL}/getIdentity`, {
       method: 'GET',
     });
     if (response.status < 300) {

@@ -2,6 +2,7 @@ import { Dispatch } from 'react';
 import { ActionType } from './commons';
 import { getUserData } from './content';
 import { REQUEST_SUCCESSFUL, REQUEST_INITIALISED, REQUEST_FAILED, REQUEST_IDLE } from './constants';
+import { REQUEST_URL } from '../utils/constants';
 
 interface ActionProps {
   type: string;
@@ -53,7 +54,7 @@ export const initialiseAddPhraseRequest: PhraseRequestType = (context) => async 
     return;
   }
   try {
-    const response = await fetch('/addPhrase', {
+    const response = await fetch(`${REQUEST_URL}/addPhrase`, {
       method: 'POST',
       body: JSON.stringify(context),
     });
@@ -79,7 +80,7 @@ export const initialiseAddCategoryRequest: CategoryRequestType = (context) => as
     return;
   }
   try {
-    const response = await fetch('/addCategory', {
+    const response = await fetch(`${REQUEST_URL}/addCategory`, {
       method: 'POST',
       body: JSON.stringify(context),
     });

@@ -12,6 +12,7 @@ import {
   PRACTICE_SUCCESSFUL,
 } from './constants';
 import { PhraseModel } from '../conf/dataModel';
+import { REQUEST_URL } from '../utils/constants';
 
 export interface IPayload {
   isCorrect: boolean;
@@ -116,7 +117,7 @@ export const submitPractice = (ctx: ISubmitCtx) => async (dispatch: Dispatch<any
     return;
   }
   try {
-    const response = await fetch('/practice', {
+    const response = await fetch(`${REQUEST_URL}/practice`, {
       method: 'POST',
       body: JSON.stringify({ phraseID, language, uid, category }),
     });
