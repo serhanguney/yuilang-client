@@ -26,6 +26,7 @@ import { Overlay } from '../../../design/components/Overlay';
 import { debounce } from '../../../utils/tools';
 import { LanguageLiterals, languages } from '../../../utils/fixedValues';
 import { REQUEST_URL } from '../../../utils/constants';
+import { DatabaseModel } from '../../../conf/dataModel';
 
 //TYPES
 interface Selection {
@@ -173,18 +174,25 @@ class VocabularySection extends React.Component<VocabularyProps, VocabularyState
     this.debounceTranslate(debouncedFn);
   }
 
-  handleSubmit() {
+  async handleSubmit() {
     if (!this.state.isReadyToSubmit) {
       return;
     } else if (this.props.user.uid) {
-      this.props.initialiseAddPhraseRequest({
+      const content = this.props.content.userContent as DatabaseModel;
+      const category = this.state.selections.category.value;
+      const categoryCount = content.categories[category].practiceCount;
+      const phrase = this.state.to === 'czech' ? this.state.translatedPhrase : this.state.phrase;
+
+      await this.props.initialiseAddPhraseRequest({
         uid: this.props.user.uid,
-        phrase: this.state.phrase,
         language: this.props.user.language,
-        category: this.state.selections.category.value,
         type: this.state.selections.type.value,
         inEnglish: this.state.inEnglish,
+        phrase,
+        categoryCount,
+        category,
       });
+      this.setState({ phrase: '', translatedPhrase: '' });
     }
   }
 

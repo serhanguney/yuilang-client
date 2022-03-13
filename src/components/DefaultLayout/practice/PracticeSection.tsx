@@ -66,7 +66,7 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
           options: ['medium', 'high'],
         },
       },
-      isReadyToExercise: true,
+      isReadyToExercise: false,
       showExercise: false,
       mediumDifficultyCount: 0,
       highDifficultyCount: 0,
@@ -87,7 +87,7 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
     const existsLevelOfDifficulty = arrayOfSelectedPhrases.filter(
       (phrase: any) => phrase.practiceCount < difficultyLimits[selectedLevelOfDifficulty]
     );
-    if (arrayOfSelectedPhrases.length > minExpectedCapacity || existsLevelOfDifficulty) {
+    if (arrayOfSelectedPhrases.length > minExpectedCapacity && existsLevelOfDifficulty) {
       return true;
     }
     return false;
@@ -114,10 +114,10 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
 
     const isReadyToExercise =
       !!this.state.selections.levelOfDifficulty.selected && !!this.state.selections.category.selected;
-
+    console.log('isReady', isReadyToExercise);
     if (isReadyToExercise) {
       const isValid = this.validateSelection();
-
+      console.log('@@', isValid);
       if (isValid) {
         console.log('ready to exercise');
         this.setState({

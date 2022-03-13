@@ -5,15 +5,15 @@ import { createBrowserHistory } from 'history';
 import { ThemeProvider } from 'styled-components';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
-import AuthenticationBoundary from './components/AuthenticationBoundary';
 
 import { GlobalStyle, theme } from './design/theme';
 
-import DefaultLayout from './pages/DefaultLayout';
-import { LOGIN_PAGE_URL, SIGNUP_PAGE_URL } from './utils/constants';
+import { HOME_PAGE_URL, LOGIN_PAGE_URL, SIGNUP_PAGE_URL } from './utils/constants';
 import LogInPage from './pages/LogInPage';
 import SignUpPage from './pages/SignUpPage';
 import ErrorPage from './pages/ErrorPage';
+import Dashboard from './components/DefaultLayout/Dashboard';
+import PrivateRoute from './components/PrivateRoute';
 
 export const history = createBrowserHistory();
 
@@ -22,10 +22,8 @@ ReactDOM.render(
     <BrowserRouter history={history}>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <AuthenticationBoundary>
-          <DefaultLayout />
-        </AuthenticationBoundary>
         <Switch>
+          <PrivateRoute path={HOME_PAGE_URL} component={Dashboard} />
           <Route path={'/'} render={() => <Redirect to={LOGIN_PAGE_URL} />} exact />
           <Route path={'/error'} component={ErrorPage} />
           <Route path={LOGIN_PAGE_URL} component={LogInPage} exact />

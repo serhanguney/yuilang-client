@@ -19,6 +19,7 @@ interface PhraseRequestProps {
   category: string;
   type: string;
   inEnglish: string;
+  categoryCount: number;
 }
 export interface CategoryRequestProps {
   category: string;

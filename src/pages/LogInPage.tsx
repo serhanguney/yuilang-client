@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { initialiseLogin } from '../redux/identity';
+import { getUserData } from '../redux/content';
 import UserInput from '../design/components/Input';
 import { Button, ButtonContainer } from '../design/components/buttons';
 import { SectionContainer } from '../design/components/containers';
 import styled from 'styled-components';
 import { spaces } from '../design/fixedValues';
 import { YuiTitle, YuiTitleLine } from '../design/components/YuiTitle';
+import { RootState } from '../redux/reducer';
+import { history } from '../index';
+import { HOME_PAGE_URL } from '../utils/constants';
 
 const StyledContainer = styled(SectionContainer)`
   padding: ${spaces.large} ${spaces.small};
@@ -38,12 +42,14 @@ class LogInPage extends React.Component<any, LoginPageState> {
       [e.target.name]: e.target.value,
     });
   }
-  handleSubmit(e: any) {
+  async handleSubmit(e: any) {
     e.preventDefault();
-    this.props.initialiseLogin({
+    await this.props.initialiseLogin({
       email: this.state.email,
       password: this.state.password,
     });
+    await this.props.getUserData(this.props.uid);
+    history.push(`${HOME_PAGE_URL}/practice`);
   }
   render() {
     return (
@@ -81,7 +87,11 @@ class LogInPage extends React.Component<any, LoginPageState> {
   }
 }
 
+const mapStateToProps = (state: RootState) => ({
+  uid: state.user.uid,
+});
 const actionCreators = {
   initialiseLogin,
+  getUserData,
 };
-export default connect(undefined, actionCreators)(LogInPage);
+export default connect(mapStateToProps, actionCreators)(LogInPage);

@@ -45,12 +45,10 @@ export const initialiseLogin = (context: LoginProps) => async (dispatch: Dispatc
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
+
     if (response.status < 300) {
-      const result = await response.json();
-      await getUserData(result.user.uid)(dispatch);
-      dispatch(completeLogin(result.user.uid));
-      history.push(`${HOME_PAGE_URL}/practice`);
-      history.go(0);
+      const result = await response.text();
+      dispatch(completeLogin(result));
     } else {
       dispatch(failLogin());
     }

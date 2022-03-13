@@ -26,7 +26,7 @@ export const getUserData: TGetUserData = (uid) => async (dispatch) => {
     return;
   }
   try {
-    const response: any = await fetch(`${REQUEST_URL}/getSession`, {
+    const response: any = await fetch(`${REQUEST_URL}/getDatabase`, {
       method: 'POST',
       body: JSON.stringify({ uid }),
     });
