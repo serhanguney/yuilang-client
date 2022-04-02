@@ -24,6 +24,10 @@ export const Button = styled.button<ButtonProps>`
   &:disabled {
     background-color: ${(props) => props.theme.getAppearanceColor('regular', 'background')};
   }
+  &:focus {
+    background-color: ${(props) => props.theme.getAppearanceColor(props.appearance, 'text')};
+    color: ${(props) => props.theme.getAppearanceColor(props.appearance, 'background')};
+  }
 `;
 
 export const ActionButtonContainer = styled.div<{ isCentered?: boolean }>`

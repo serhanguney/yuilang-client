@@ -73,7 +73,9 @@ export const retrieveIdentity = () => async (dispatch: Dispatch<ActionType<strin
     throw new Error(`Error occurred trying to get user data: ${err}`);
   }
 };
-
+export const setIdentity = (uid: string) => (dispatch: Dispatch<ActionType<string>>) => {
+  dispatch(receiveIdentity(uid));
+};
 const initialState = {
   uid: '',
   identityStatus: IDENTITY_IDLE,

@@ -20,7 +20,6 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_YUIVAE }}'
-          channelId: live
           projectId: yuivae
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels

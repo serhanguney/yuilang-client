@@ -4,9 +4,11 @@ import { LOCAL_STORAGE_UID_KEY, LOGIN_PAGE_URL } from '../utils/constants';
 import { Redirect, Route } from 'react-router-dom';
 import { getUserData, ReducerState } from '../redux/content';
 import { DatabaseModel } from '../conf/dataModel';
+import { setIdentity } from '../redux/identity';
 
 interface IPrivateRoute {
   getUserData: (uid: string) => void;
+  setIdentity: (uid: string) => void;
   component: any;
   path: string;
   content: ReducerState;
@@ -20,6 +22,7 @@ class PrivateRoute extends React.Component<IPrivateRoute, { isAuthorised: boolea
     };
   }
   async validateUser(uid: string) {
+    await this.props.setIdentity(uid);
     await this.props.getUserData(uid);
   }
 
@@ -56,5 +59,6 @@ const mapStateToProps = (state: any) => {
 };
 const actionCreators = {
   getUserData,
+  setIdentity,
 };
 export default connect(mapStateToProps, actionCreators)(PrivateRoute);
