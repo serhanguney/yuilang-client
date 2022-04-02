@@ -23,7 +23,7 @@ class NavigationBar extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     const getSectionFromUrl = this.props.history.location.pathname.split('/').slice(1)[1];
-    console.log('@@', this.props.history);
+
     this.state = {
       currentSection: getSectionFromUrl,
     };

@@ -1,9 +1,7 @@
 import { Dispatch } from 'react';
 import { ActionType } from './commons';
 import { IDENTITY_REQUESTED, IDENTITY_RECEIVED, IDENTITY_FAILED, IDENTITY_IDLE } from './constants';
-import { history } from '../index';
-import { getUserData } from './content';
-import { HOME_PAGE_URL, REQUEST_URL } from '../utils/constants';
+import { REQUEST_URL } from '../utils/constants';
 
 export type Identity = {
   uid: string;

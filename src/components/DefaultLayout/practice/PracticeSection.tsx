@@ -51,8 +51,10 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
 
   constructor(props: any) {
     super(props);
+    console.log('this.props.content.userContent', this.props.content.userContent);
     if ('categories' in this.props.content.userContent) {
       this.categories = Object.keys(this.props.content.userContent.categories);
+      console.log('@@', this.categories);
     }
 
     this.state = {
@@ -180,7 +182,7 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
             let count = 0;
             let percentage = 0;
             if ('categories' in this.props.content.userContent) {
-              count = this.props.content.userContent.categories[option].practiceCount;
+              count = this.props.content.userContent.categories[option]?.practiceCount;
             }
             if ('practiceCount' in this.props.content.userContent) {
               const divider = this.props.content.userContent.practiceCount || 1;
