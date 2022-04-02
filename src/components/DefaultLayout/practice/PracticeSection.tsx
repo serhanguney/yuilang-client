@@ -183,6 +183,7 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
             let percentage = 0;
             if ('categories' in this.props.content.userContent) {
               count = this.props.content.userContent.categories[option]?.practiceCount;
+              console.log(this.props.content.userContent.categories[option]?.practiceCount);
             }
             if ('practiceCount' in this.props.content.userContent) {
               const divider = this.props.content.userContent.practiceCount || 1;
