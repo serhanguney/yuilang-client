@@ -1,9 +1,7 @@
 import { Dispatch } from 'react';
 import { ActionType } from './commons';
 import { IDENTITY_REQUESTED, IDENTITY_RECEIVED, IDENTITY_FAILED, IDENTITY_IDLE } from './constants';
-import { history } from '../index';
-import { getUserData } from './content';
-import { HOME_PAGE_URL, REQUEST_URL } from '../utils/constants';
+import { REQUEST_URL } from '../utils/constants';
 
 export type Identity = {
   uid: string;
@@ -75,7 +73,9 @@ export const retrieveIdentity = () => async (dispatch: Dispatch<ActionType<strin
     throw new Error(`Error occurred trying to get user data: ${err}`);
   }
 };
-
+export const setIdentity = (uid: string) => (dispatch: Dispatch<ActionType<string>>) => {
+  dispatch(receiveIdentity(uid));
+};
 const initialState = {
   uid: '',
   identityStatus: IDENTITY_IDLE,

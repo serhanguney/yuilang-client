@@ -42,12 +42,21 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
   prepareExercise() {
     const usersDifficultySelection = this.props.levelOfDifficulty;
     const usersCategorySelection = this.props.category;
-    let selectedPhrases: any = [];
+    const filteredPhrasesByType: any = {};
     if ('categories' in this.props.content.userContent) {
-      selectedPhrases = this.props.content.userContent.categories[usersCategorySelection].phrases;
+      const selectedPhrases: any = this.props.content.userContent.categories[usersCategorySelection].phrases;
+      const type = Math.random() < 0.5 ? 'word' : 'sentence';
+      console.log('preparing exercise with', type);
+
+      for (const key in selectedPhrases) {
+        const value = selectedPhrases[key];
+        if (value.type === type) {
+          filteredPhrasesByType[key] = value;
+        }
+      }
     }
 
-    this.props.assembleExercise(selectedPhrases, usersDifficultySelection, []);
+    this.props.assembleExercise(filteredPhrasesByType, usersDifficultySelection, []);
   }
 
   componentDidMount() {
@@ -121,15 +130,14 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
             </Button>
           </ButtonContainer>
         ))}
-        {/*Submit button*/}
-        <ButtonContainer>
-          <Button appearance={'submit'} onClick={this.handleSubmit}>
-            SUBMIT
-          </Button>
-        </ButtonContainer>
-        {/*Result Modal*/}
-        {this.state.showResult && (
+        {this.state.showResult ? (
           <PracticeResult isCorrect={this.state.selected.isCorrect} onRestart={this.restartExercise.bind(this)} />
+        ) : (
+          <ButtonContainer>
+            <Button appearance={'submit'} onClick={this.handleSubmit}>
+              SUBMIT
+            </Button>
+          </ButtonContainer>
         )}
       </ModalContainer>
     );

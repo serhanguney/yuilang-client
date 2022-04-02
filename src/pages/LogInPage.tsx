@@ -10,7 +10,7 @@ import { spaces } from '../design/fixedValues';
 import { YuiTitle, YuiTitleLine } from '../design/components/YuiTitle';
 import { RootState } from '../redux/reducer';
 import { history } from '../index';
-import { HOME_PAGE_URL } from '../utils/constants';
+import { HOME_PAGE_URL, LOCAL_STORAGE_UID_KEY } from '../utils/constants';
 
 const StyledContainer = styled(SectionContainer)`
   padding: ${spaces.large} ${spaces.small};
@@ -49,6 +49,7 @@ class LogInPage extends React.Component<any, LoginPageState> {
       password: this.state.password,
     });
     await this.props.getUserData(this.props.uid);
+    localStorage.setItem(LOCAL_STORAGE_UID_KEY, this.props.uid);
     history.push(`${HOME_PAGE_URL}/practice`);
   }
   render() {

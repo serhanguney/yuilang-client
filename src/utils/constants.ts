@@ -12,3 +12,5 @@ export const SIGNUP_PAGE_URL = '/signup';
 export const REQUEST_URL = 'https://yuilang-server.herokuapp.com';
 // export const REQUEST_URL = 'http://localhost:5000';
 export const arrayOfPrivateURLs = [HOME_PAGE_URL];
+
+export const LOCAL_STORAGE_UID_KEY = 'uid';
