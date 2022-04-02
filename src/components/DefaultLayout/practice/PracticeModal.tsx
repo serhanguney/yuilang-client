@@ -6,7 +6,7 @@ import { ReducerState as ContentState } from '../../../redux/content';
 
 import { ModalContainer } from '../../../design/components/Modal';
 import { difficultyType } from '../../../utils/fixedValues';
-import { Button, ButtonContainer } from '../../../design/components/buttons';
+import { ActionButton, Button, ButtonContainer } from '../../../design/components/buttons';
 import { YuiTitle, YuiTitleLine } from '../../../design/components/YuiTitle';
 import { SectionContainer } from '../../../design/components/containers';
 import CircleProgress from '../../CircleProgress';
@@ -15,6 +15,7 @@ import { assembleExercise, submitPractice, IPayload, ISubmitCtx, restartPractice
 import { EXERCISE_CREATED } from '../../../redux/constants';
 import Loading from '../../Loading';
 import { Identity } from '../../../redux/identity';
+import styled from 'styled-components';
 
 interface PracticeModalProps {
   user: Identity;
@@ -25,8 +26,19 @@ interface PracticeModalProps {
   exercise: any;
   submitPractice: (ctx: ISubmitCtx) => void;
   restartPractice: () => void;
+  onClose: () => void;
 }
-
+const StyledActionButton = styled(ActionButton)`
+  margin-left: auto;
+  margin-right: 20px;
+`;
+const StyledButtonContainer = styled(ButtonContainer)`
+  margin: 10px 40px;
+`;
+const BottomSection = styled.div`
+  margin-top: 40px;
+  margin-bottom: 100px;
+`;
 class PracticeModal extends React.Component<PracticeModalProps, any> {
   constructor(props: any) {
     super(props);
@@ -99,8 +111,8 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
   }
 
   render() {
-    const { exercise } = this.props;
-
+    const { exercise, onClose } = this.props;
+    const hasSelected = Object.keys(this.state.selected).length > 0;
     if (exercise.assembleStatus !== EXERCISE_CREATED) {
       return <Loading />;
     }
@@ -110,6 +122,9 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
       <ModalContainer>
         <SectionContainer isCentered={true}>
           {/*Progress Circle*/}
+          <StyledActionButton appearance={'regular'} onClick={() => onClose()}>
+            x
+          </StyledActionButton>
           <CircleProgress appearance={'regular'} size={'large'} percentage={this.state.progressPercentage} />
           <h1>Exercise Count</h1>
           {/*Question*/}
@@ -124,21 +139,27 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
         </YuiTitle>
         {/*Answers*/}
         {exercise.options.map((option: any) => (
-          <ButtonContainer key={option.phrase.inEnglish}>
-            <Button appearance={'regular'} onClick={() => this.handleSelect(option)}>
+          <StyledButtonContainer key={option.phrase.inEnglish}>
+            <Button
+              onTouch={this.state.selected === option}
+              appearance={'regular'}
+              onClick={() => this.handleSelect(option)}
+            >
               {option.phrase.inEnglish}
             </Button>
-          </ButtonContainer>
+          </StyledButtonContainer>
         ))}
-        {this.state.showResult ? (
-          <PracticeResult isCorrect={this.state.selected.isCorrect} onRestart={this.restartExercise.bind(this)} />
-        ) : (
-          <ButtonContainer>
-            <Button appearance={'submit'} onClick={this.handleSubmit}>
-              SUBMIT
-            </Button>
-          </ButtonContainer>
-        )}
+        <BottomSection>
+          {this.state.showResult ? (
+            <PracticeResult isCorrect={this.state.selected.isCorrect} onRestart={this.restartExercise.bind(this)} />
+          ) : (
+            <ButtonContainer>
+              <Button appearance={'submit'} onClick={this.handleSubmit}>
+                SUBMIT
+              </Button>
+            </ButtonContainer>
+          )}
+        </BottomSection>
       </ModalContainer>
     );
   }

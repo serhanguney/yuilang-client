@@ -6,11 +6,15 @@ import SectionBar from './NavigationBar';
 import { Route } from 'react-router-dom';
 import { HOME_PAGE_URL } from '../../utils/constants';
 import SectionsBoundary from './NavigationsBoundary';
+import styled from 'styled-components';
 
+const StyledMainSections = styled(MainSection)`
+  margin-bottom: 100px;
+`;
 export default class Dashboard extends React.Component {
   render() {
     return (
-      <MainSection>
+      <StyledMainSections>
         <Navbar>
           <h2>YuiLang</h2>
           <NavbarActions>
@@ -25,7 +29,7 @@ export default class Dashboard extends React.Component {
           </p>
           <YuiTitleLine hasFullLength={false} />
         </YuiTitle>
-      </MainSection>
+      </StyledMainSections>
     );
   }
 }

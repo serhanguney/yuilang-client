@@ -77,7 +77,7 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     color: ${colors.primary};
     letter-spacing: 0.8px;
-
+    
     * {
       box-sizing: inherit;
       font-family: inherit;
@@ -95,6 +95,7 @@ export const GlobalStyle = createGlobalStyle`
   #root {
     height: 100%;
     width: 100%;
+    overflow: auto;
   }
 
   h3 {

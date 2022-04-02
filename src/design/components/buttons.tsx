@@ -5,6 +5,7 @@ import { measures, spaces, dimensions } from '../fixedValues';
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   appearance: AppearanceNames;
+  onTouch?: boolean;
 }
 export const ButtonContainer = styled.div`
   display: flex;
@@ -12,12 +13,13 @@ export const ButtonContainer = styled.div`
 `;
 
 export const Button = styled.button<ButtonProps>`
-  background-color: ${(props) => props.theme.getAppearanceColor(props.appearance, 'background')};
+  background-color: ${(props) =>
+    props.theme.getAppearanceColor(props.appearance, props.onTouch ? 'text' : 'background')};
   flex-grow: 1;
   padding: ${spaces.medium} ${spaces.small};
   margin: 0 ${spaces.small};
   border-radius: ${measures.borderRadius};
-  color: ${(props) => props.theme.getAppearanceColor(props.appearance, 'text')};
+  color: ${(props) => props.theme.getAppearanceColor(props.appearance, props.onTouch ? 'background' : 'text')};
   font-weight: 600;
   font-size: 16px;
   cursor: pointer;

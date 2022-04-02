@@ -13,6 +13,7 @@ export const ModalContainer = styled.div`
   background-color: ${colors.white};
   box-shadow: ${measures.boxShadow};
   padding: ${spaces.medium} 0;
+  overflow: auto;
 `;
 export const ModalItem = styled.div<{ isActive: boolean }>`
   padding: ${spaces.small} ${spaces.large};

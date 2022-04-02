@@ -51,10 +51,8 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
 
   constructor(props: any) {
     super(props);
-    console.log('this.props.content.userContent', this.props.content.userContent);
     if ('categories' in this.props.content.userContent) {
       this.categories = Object.keys(this.props.content.userContent.categories);
-      console.log('@@', this.categories);
     }
 
     this.state = {
@@ -209,6 +207,7 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
           <PracticeModal
             levelOfDifficulty={selections.levelOfDifficulty.selected}
             category={selections.category.selected}
+            onClose={() => this.setState({ showExercise: false })}
           />
         )}
       </MainSection>
