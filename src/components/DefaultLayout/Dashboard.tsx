@@ -17,9 +17,6 @@ export default class Dashboard extends React.Component {
       <StyledMainSections>
         <Navbar>
           <h2>YuiLang</h2>
-          <NavbarActions>
-            <p style={{ margin: 0 }}>menu</p>
-          </NavbarActions>
         </Navbar>
         <SectionBar />
         <Route path={`${HOME_PAGE_URL}/:sectionId`} component={SectionsBoundary} exact />

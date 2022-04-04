@@ -73,15 +73,15 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
 
   componentDidMount() {
     this.prepareExercise();
-    let count = 0;
-    let divider = 1;
-    if ('practiceCount' in this.props.content.userContent) {
-      divider = this.props.content.userContent.practiceCount || 1;
-    }
+
     if ('categories' in this.props.content.userContent) {
-      count = this.props.content.userContent.categories[this.props.category].practiceCount;
+      const option = this.props.category;
+      const category = this.props.content.userContent.categories[option];
+      const totalCountOfPhrases = Object.keys(category.phrases).length;
+      const divider = totalCountOfPhrases || 1;
+      const count = this.props.content.userContent.categories[this.props.category].practiceCount;
+      this.setState({ progressPercentage: Math.floor((count / divider) * 100) });
     }
-    this.setState({ progressPercentage: count / divider });
   }
 
   async handleSubmit() {
@@ -112,7 +112,6 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
 
   render() {
     const { exercise, onClose } = this.props;
-    const hasSelected = Object.keys(this.state.selected).length > 0;
     if (exercise.assembleStatus !== EXERCISE_CREATED) {
       return <Loading />;
     }
@@ -125,8 +124,8 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
           <StyledActionButton appearance={'regular'} onClick={() => onClose()}>
             x
           </StyledActionButton>
-          <CircleProgress appearance={'regular'} size={'large'} percentage={this.state.progressPercentage} />
-          <h1>Exercise Count</h1>
+          <CircleProgress appearance={'regular'} size={'medium'} percentage={this.state.progressPercentage} />
+          <h2>Question</h2>
           {/*Question*/}
           {exercise.options.length === 0 ? (
             <div>Selected category doesn't have more than 4 phrases!</div>

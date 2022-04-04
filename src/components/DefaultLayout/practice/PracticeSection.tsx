@@ -179,13 +179,15 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
           {selections.category.options.map((option) => {
             let count = 0;
             let percentage = 0;
+            let totalCountOfPhrases = null;
             if ('categories' in this.props.content.userContent) {
-              count = this.props.content.userContent.categories[option]?.practiceCount;
-              console.log(this.props.content.userContent.categories[option]?.practiceCount);
+              const category = this.props.content.userContent.categories[option];
+              count = category?.practiceCount;
+              totalCountOfPhrases = Object.keys(category.phrases).length;
             }
             if ('practiceCount' in this.props.content.userContent) {
-              const divider = this.props.content.userContent.practiceCount || 1;
-              percentage = count / divider;
+              const divider = totalCountOfPhrases || 1;
+              percentage = (count / divider) * 100;
             }
 
             return (
@@ -193,7 +195,7 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
                 key={option}
                 heading={option}
                 description={`Your practice progress in ${option} category`}
-                percentage={percentage}
+                percentage={Math.floor(percentage)}
               />
             );
           })}

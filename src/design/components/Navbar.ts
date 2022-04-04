@@ -5,7 +5,7 @@ export const Navbar = styled.nav`
   display: flex;
   padding: ${spaces.medium};
   justify-content: space-between;
-  margin-bottom: ${spaces.small};
+  margin-bottom: ${spaces.large};
   h2 {
     color: ${colors.black};
     font-weight: 600;
