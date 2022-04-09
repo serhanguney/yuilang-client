@@ -5,6 +5,7 @@ import { reducer as content, ReducerState as ContentState } from './content';
 import { reducer as modal, ReducerState as ModalState, TriggerType } from './modal';
 import { reducer as exercise } from './practice';
 import { reducer as signupState, IState as ISignupState } from './signup';
+import { reducer as infoModal, ReducerState as IInfoModal } from './infoModal';
 
 export type RootState = {
   user: Identity;
@@ -13,6 +14,7 @@ export type RootState = {
   modal: ModalState<TriggerType>;
   exercise: any;
   signupState: ISignupState;
+  infoModal: IInfoModal;
 };
 export const rootReducer = combineReducers({
   user: retrieveIdentity,
@@ -21,4 +23,5 @@ export const rootReducer = combineReducers({
   modal,
   exercise,
   signupState,
+  infoModal,
 });

@@ -10,13 +10,26 @@ import { ActionButton, Button, ButtonContainer } from '../../../design/component
 import { YuiTitle, YuiTitleLine } from '../../../design/components/YuiTitle';
 import { SectionContainer } from '../../../design/components/containers';
 import CircleProgress from '../../CircleProgress';
-import PracticeResult from './PracticeResult';
+
 import { assembleExercise, submitPractice, IPayload, ISubmitCtx, restartPractice } from '../../../redux/practice';
+import { promptInfoModal, PromptInfoModal } from '../../../redux/infoModal';
 import { EXERCISE_CREATED } from '../../../redux/constants';
 import Loading from '../../Loading';
 import { Identity } from '../../../redux/identity';
 import styled from 'styled-components';
+import { spaces } from '../../../design/fixedValues';
 
+const QuestionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: ${spaces.small} ${spaces.medium};
+  p {
+    margin: 0;
+  }
+`;
 interface PracticeModalProps {
   user: Identity;
   levelOfDifficulty: keyof difficultyType;
@@ -27,6 +40,7 @@ interface PracticeModalProps {
   submitPractice: (ctx: ISubmitCtx) => void;
   restartPractice: () => void;
   onClose: () => void;
+  promptInfoModal: PromptInfoModal;
 }
 const StyledActionButton = styled(ActionButton)`
   margin-left: auto;
@@ -45,7 +59,7 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
     this.state = {
       progressPercentage: '',
       selected: {},
-      showResult: false,
+      showNext: false,
     };
     this.handleSelect = this.handleSelect.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -85,6 +99,11 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
   }
 
   async handleSubmit() {
+    if (!this.state.selected) {
+      this.props.promptInfoModal({ type: 'info', message: 'Please select an option' });
+      return;
+    }
+
     const { isCorrect, id } = this.state.selected;
     const {
       user: { uid, language },
@@ -97,7 +116,9 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
       language,
       category,
     });
-    this.setState({ showResult: true });
+    const message = isCorrect ? 'correct' : 'wrong';
+    this.props.promptInfoModal({ type: isCorrect ? 'success' : 'error', message });
+    this.setState({ showNext: true });
   }
 
   handleSelect(option: IPayload) {
@@ -106,7 +127,7 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
 
   restartExercise() {
     this.props.restartPractice();
-    this.setState({ showResult: false });
+    this.setState({ showNext: false });
     this.prepareExercise();
   }
 
@@ -125,13 +146,14 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
             x
           </StyledActionButton>
           <CircleProgress appearance={'regular'} size={'medium'} percentage={this.state.progressPercentage} />
-          <h2>Question</h2>
-          {/*Question*/}
-          {exercise.options.length === 0 ? (
-            <div>Selected category doesn't have more than 4 phrases!</div>
-          ) : (
-            <div>{correctAnswer.phrase} ?</div>
-          )}
+          <QuestionContainer>
+            <h2>Question</h2>
+            {exercise.options.length === 0 ? (
+              <p>Selected category doesn't have more than 4 phrases!</p>
+            ) : (
+              <p>{correctAnswer.phrase} ?</p>
+            )}
+          </QuestionContainer>
         </SectionContainer>
         <YuiTitle hasFullLength={true}>
           <YuiTitleLine hasFullLength={true} />
@@ -149,15 +171,17 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
           </StyledButtonContainer>
         ))}
         <BottomSection>
-          {this.state.showResult ? (
-            <PracticeResult isCorrect={this.state.selected.isCorrect} onRestart={this.restartExercise.bind(this)} />
-          ) : (
-            <ButtonContainer>
+          <ButtonContainer>
+            {this.state.showNext ? (
+              <Button appearance={'submit'} onClick={this.restartExercise.bind(this)}>
+                NEXT
+              </Button>
+            ) : (
               <Button appearance={'submit'} onClick={this.handleSubmit}>
                 SUBMIT
               </Button>
-            </ButtonContainer>
-          )}
+            )}
+          </ButtonContainer>
         </BottomSection>
       </ModalContainer>
     );
@@ -173,5 +197,6 @@ const actionCreators = {
   assembleExercise,
   submitPractice,
   restartPractice,
+  promptInfoModal,
 };
 export default connect(mapStateToProps, actionCreators)(PracticeModal);

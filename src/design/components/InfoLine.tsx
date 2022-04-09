@@ -29,6 +29,7 @@ const InfoLine = ({ heading, description, count, percentage }: ILine) => {
       <TextContainer>
         <Text>{heading}</Text>
         <SubText>{description}</SubText>
+        <SubText>Total: {count}</SubText>
       </TextContainer>
       <CircleContainer size={'small'}>
         <CircleProgress appearance={'submit'} percentage={percentage} size={'small'} />

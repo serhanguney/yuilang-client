@@ -20,6 +20,7 @@ import { Button, ButtonContainer } from '../../../design/components/buttons';
 import PracticeModal from './PracticeModal';
 import { ValueOf } from '../../../utils/fixedValues';
 import InfoLine from '../../../design/components/InfoLine';
+import { PromptInfoModal, promptInfoModal } from '../../../redux/infoModal';
 
 export interface Option<T> {
   selected: T;
@@ -27,7 +28,7 @@ export interface Option<T> {
 }
 
 export interface Selection {
-  levelOfDifficulty: Option<keyof difficultyType>;
+  levelOfDifficulty: Option<keyof difficultyType | ''>;
   category: Option<string>;
 }
 
@@ -44,6 +45,7 @@ interface PracticeSectionProps {
   setModalItems: ModalItemsType;
   showModal: ModalShowType;
   content: ContentState;
+  promptInfoModal: PromptInfoModal;
 }
 
 class PracticeSection extends React.Component<PracticeSectionProps, PracticeSectionsState> {
@@ -62,7 +64,7 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
           options: this.categories,
         },
         levelOfDifficulty: {
-          selected: 'medium',
+          selected: '',
           options: ['medium', 'high'],
         },
       },
@@ -84,55 +86,69 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
       arrayOfSelectedPhrases = Object.values(userContent.categories[selectedCategory].phrases);
     }
 
+    if (!selectedLevelOfDifficulty) return;
+
     const existsLevelOfDifficulty = arrayOfSelectedPhrases.filter(
       (phrase: any) => phrase.practiceCount < difficultyLimits[selectedLevelOfDifficulty]
     );
     if (arrayOfSelectedPhrases.length > minExpectedCapacity && existsLevelOfDifficulty) {
       return true;
     }
+    this.props.promptInfoModal({
+      type: 'error',
+      message: `either minExpectedCapacity(currently ${arrayOfSelectedPhrases.length}) is not reached or selected level of difficulty has no capacity`,
+    });
     return false;
   }
 
   handleSelection(value: ValueOf<Selection>) {
     if (this.props.modal.triggeredBy === 'levelOfDifficulty' && !this.state.selections.category.selected) {
-      //TODO replace with error modal
-      console.log('select category first');
+      this.props.promptInfoModal({ type: 'info', message: 'select category first' });
       return;
     }
 
     const trigger = this.props.modal.triggeredBy as keyof Selection;
-    this.setState((prevState) => ({
-      ...prevState,
+    // this.setState((prevState) => ({
+    //   ...prevState,
+    //   selections: {
+    //     ...prevState.selections,
+    //     [trigger]: {
+    //       ...prevState.selections[trigger],
+    //       selected: value,
+    //     },
+    //   },
+    // }));
+    this.setState({
+      ...this.state,
       selections: {
-        ...prevState.selections,
+        ...this.state.selections,
         [trigger]: {
-          ...prevState.selections[trigger],
+          ...this.state.selections[trigger],
           selected: value,
         },
       },
-    }));
+    });
+  }
 
-    const isReadyToExercise =
-      !!this.state.selections.levelOfDifficulty.selected && !!this.state.selections.category.selected;
-    console.log('isReady', isReadyToExercise);
-    if (isReadyToExercise) {
-      const isValid = this.validateSelection();
-      console.log('@@', isValid);
-      if (isValid) {
-        console.log('ready to exercise');
-        this.setState({
-          isReadyToExercise: true,
-        });
-      } else {
-        //TODO replace with error modal
-        console.log(
-          'selected phrase does not fulfill one of the following aspects: \n selected category capacity is less than minExpectedCapacity \n selected difficulty capacity does not exists'
-        );
+  componentDidUpdate(
+    prevProps: Readonly<PracticeSectionProps>,
+    prevState: Readonly<PracticeSectionsState>,
+    snapshot?: any
+  ) {
+    if (prevState.selections.levelOfDifficulty.selected !== this.state.selections.levelOfDifficulty.selected) {
+      const isReadyToExercise =
+        !!this.state.selections.levelOfDifficulty.selected && !!this.state.selections.category.selected;
+      if (isReadyToExercise) {
+        const isValid = this.validateSelection();
+        if (isValid) {
+          this.props.promptInfoModal({ type: 'info', message: 'ready to exercise' });
+          this.setState({
+            isReadyToExercise: true,
+          });
+        }
       }
     }
   }
-
-  handleCompleteEdit() {}
 
   openMenu(trigger: keyof Selection, value: ValueOf<Selection>) {
     this.props.setModalItems(value.options, trigger);
@@ -141,7 +157,10 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
 
   goToExercise() {
     if (!this.state.isReadyToExercise) {
-      console.log('prepare exercise failed', this.state.isReadyToExercise);
+      this.props.promptInfoModal({
+        type: 'error',
+        message: `Make sure you selected difficulty(${this.state.selections.levelOfDifficulty.selected}) and category(${this.state.selections.category.selected}) first`,
+      });
       return;
     }
 
@@ -155,9 +174,7 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
 
     return (
       <MainSection>
-        {this.props.modal.isModalOpen && (
-          <Modal onCompleteEdit={this.handleCompleteEdit.bind(this)} onSelect={this.handleSelection.bind(this)} />
-        )}
+        {this.props.modal.isModalOpen && <Modal onSelect={this.handleSelection.bind(this)} />}
         <SectionContainer>
           {Object.entries(selections).map((item, index) => {
             const [key, value] = item;
@@ -194,7 +211,8 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
               <InfoLine
                 key={option}
                 heading={option}
-                description={`Your practice progress in ${option} category`}
+                description={`Your progress in ${option} category`}
+                count={totalCountOfPhrases!}
                 percentage={Math.floor(percentage)}
               />
             );
@@ -227,6 +245,6 @@ const mapStateToProps = (state: RootState) => {
 const mapActionsToProps = {
   showModal,
   setModalItems,
+  promptInfoModal,
 };
-
 export default connect(mapStateToProps, mapActionsToProps)(PracticeSection);
