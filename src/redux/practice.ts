@@ -46,9 +46,8 @@ const practiceSuccessful = () => ({ type: PRACTICE_SUCCESSFUL });
 const practiceFailed = () => ({ type: PRACTICE_FAILED });
 const resetPractice = () => ({ type: PRACTICE_IDLE });
 
-let assembleAttemptCount = 0;
-
 const shuffleArray = (array: IPayload[]) => {
+  if (array.length === 0) return [];
   for (let i = array.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
     let temp = array[i];
@@ -58,14 +57,24 @@ const shuffleArray = (array: IPayload[]) => {
   return array;
 };
 
-const assemble = (allAnswers: any, correctAnswer: any, cardOptions: IPayload[]) => {
+const assemble = (
+  allAnswers: any,
+  correctAnswer: any,
+  cardOptions: IPayload[],
+  assembleAttemptCount: number,
+  numberOfEmptySlots: number = 0
+) => {
   let index: number;
-  cardOptions[0] = {
-    isCorrect: true,
-    phrase: correctAnswer[1],
-    id: correctAnswer[0],
-  };
-  for (let i = 1; i < practiceCardOptions; i++) {
+
+  if (cardOptions.length === 0) {
+    cardOptions[0] = {
+      isCorrect: true,
+      phrase: correctAnswer[1],
+      id: correctAnswer[0],
+    };
+    numberOfEmptySlots = 1;
+  }
+  for (let i = numberOfEmptySlots; i < practiceCardOptions; i++) {
     index = findIndexOfRandomElement(allAnswers.length);
 
     const isDuplicate = cardOptions.some(
@@ -73,19 +82,20 @@ const assemble = (allAnswers: any, correctAnswer: any, cardOptions: IPayload[]) 
       (item: any) => item.phrase.inEnglish === allAnswers[index][1].inEnglish
     );
     if (!isDuplicate) {
-      cardOptions[i] = {
+      cardOptions.push({
         isCorrect: false,
         phrase: allAnswers[index][1],
         id: allAnswers[index][0],
-      };
-      assembleAttemptCount = 0;
-    } else if (assembleAttemptCount < assembleAttemptLimit) {
-      assembleAttemptCount++;
-
-      assemble(allAnswers, correctAnswer, cardOptions);
+      });
     }
   }
   cardOptions = cardOptions.filter((option: any) => !!option);
+  if (cardOptions.length !== practiceCardOptions && assembleAttemptCount < assembleAttemptLimit) {
+    assembleAttemptCount++;
+    console.log('assembleAttemptCount', assembleAttemptCount);
+    assemble(allAnswers, correctAnswer, cardOptions, assembleAttemptCount, cardOptions.length);
+  }
+
   return cardOptions;
 };
 
@@ -106,7 +116,8 @@ export const assembleExercise =
     }
     const correctAnswer: any = Object.entries(correctAnswers)[findIndexOfRandomElement(countOfCorrectAnswers)];
     const arrayOfAllAnswers = Object.entries(allAnswers);
-    const payload = assemble(arrayOfAllAnswers, correctAnswer, cardOptions);
+    let assembleAttemptCount = 0;
+    const payload = assemble(arrayOfAllAnswers, correctAnswer, cardOptions, assembleAttemptCount);
     dispatch(exerciseCreated(shuffleArray(payload)));
   };
 

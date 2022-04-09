@@ -1,11 +1,11 @@
 import styled, { css, keyframes } from 'styled-components';
 import { connect } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { promptInfoModal } from '../redux/infoModal';
-import { colors, measures, spaces } from '../design/fixedValues';
+import { measures, spaces } from '../design/fixedValues';
 
 interface IContainer {
-  type: 'empty' | 'error' | 'info';
+  type: 'empty' | 'error' | 'info' | 'success';
 }
 const appearAnimation = keyframes`
   from{
@@ -22,7 +22,7 @@ const InfoModalContainer = styled.div<IContainer>`
   position: fixed;
   top: 15%;
   left: 50%;
-
+  z-index: ${measures.zFirstLevel};
   width: 80%;
   max-width: 500px;
   padding: ${spaces.small} ${spaces.medium};
@@ -32,16 +32,22 @@ const InfoModalContainer = styled.div<IContainer>`
   transform: translateX(-50%);
   animation: ${appearAnimation} 250ms ease-in-out;
   ${({ type, theme }) => {
-    if (type === 'error') {
-      return css`
-        background-color: ${theme.getAppearanceColor('cancel', 'background')};
-        color: ${theme.getAppearanceColor('cancel', 'text')};
-      `;
-    } else {
-      return css`
-        background-color: ${theme.getAppearanceColor('regular', 'background')};
-        color: ${theme.getAppearanceColor('regular', 'text')};
-      `;
+    switch (type) {
+      case 'error':
+        return css`
+          background-color: ${theme.getAppearanceColor('cancel', 'background')};
+          color: ${theme.getAppearanceColor('cancel', 'text')};
+        `;
+      case 'info':
+        return css`
+          background-color: ${theme.getAppearanceColor('regular', 'background')};
+          color: ${theme.getAppearanceColor('regular', 'text')};
+        `;
+      case 'success':
+        return css`
+          background-color: ${theme.getAppearanceColor('submit', 'background')};
+          color: ${theme.getAppearanceColor('submit', 'text')};
+        `;
     }
   }}
 `;

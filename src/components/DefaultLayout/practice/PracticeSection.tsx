@@ -108,26 +108,44 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
     }
 
     const trigger = this.props.modal.triggeredBy as keyof Selection;
-    this.setState((prevState) => ({
-      ...prevState,
+    // this.setState((prevState) => ({
+    //   ...prevState,
+    //   selections: {
+    //     ...prevState.selections,
+    //     [trigger]: {
+    //       ...prevState.selections[trigger],
+    //       selected: value,
+    //     },
+    //   },
+    // }));
+    this.setState({
+      ...this.state,
       selections: {
-        ...prevState.selections,
+        ...this.state.selections,
         [trigger]: {
-          ...prevState.selections[trigger],
+          ...this.state.selections[trigger],
           selected: value,
         },
       },
-    }));
+    });
+  }
 
-    const isReadyToExercise =
-      !!this.state.selections.levelOfDifficulty.selected && !!this.state.selections.category.selected;
-    if (isReadyToExercise) {
-      const isValid = this.validateSelection();
-      if (isValid) {
-        this.props.promptInfoModal({ type: 'info', message: 'ready to exercise' });
-        this.setState({
-          isReadyToExercise: true,
-        });
+  componentDidUpdate(
+    prevProps: Readonly<PracticeSectionProps>,
+    prevState: Readonly<PracticeSectionsState>,
+    snapshot?: any
+  ) {
+    if (prevState.selections.levelOfDifficulty.selected !== this.state.selections.levelOfDifficulty.selected) {
+      const isReadyToExercise =
+        !!this.state.selections.levelOfDifficulty.selected && !!this.state.selections.category.selected;
+      if (isReadyToExercise) {
+        const isValid = this.validateSelection();
+        if (isValid) {
+          this.props.promptInfoModal({ type: 'info', message: 'ready to exercise' });
+          this.setState({
+            isReadyToExercise: true,
+          });
+        }
       }
     }
   }
