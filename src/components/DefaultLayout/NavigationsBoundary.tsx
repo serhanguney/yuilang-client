@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
-import { PRACTICE_SECTION, VOCABULARY_SECTION } from '../../utils/constants';
+import { PRACTICE_SECTION, VOCABULARY_SECTION, PHRASES_SECTION } from '../../utils/constants';
 import PracticeSection from './practice/PracticeSection';
 import VocabularySection from './vocabulary/VocabularySection';
+import PhrasesSection from './phrases/PhrasesSection';
 
 class NavigationsBoundary extends React.Component<any, any> {
   renderSection() {
@@ -12,6 +13,8 @@ class NavigationsBoundary extends React.Component<any, any> {
         return <PracticeSection />;
       case VOCABULARY_SECTION.toLowerCase():
         return <VocabularySection />;
+      case PHRASES_SECTION.toLowerCase():
+        return <PhrasesSection />;
       default:
         return <PracticeSection />;
     }
