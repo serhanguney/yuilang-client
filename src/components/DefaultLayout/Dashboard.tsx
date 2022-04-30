@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { YuiTitle, YuiTitleLine } from '../../design/components/YuiTitle';
-import { Navbar, NavbarActions } from '../../design/components/Navbar';
+import { Navbar } from '../../design/components/Navbar';
 import { MainSection } from '../../design/components/containers';
 import SectionBar from './NavigationBar';
 import { Route } from 'react-router-dom';

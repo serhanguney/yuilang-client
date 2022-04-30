@@ -18,7 +18,7 @@ export const spaces = {
 };
 
 export const dimensions = {
-  buttonWidth: '50px',
+  buttonWidth: '40px',
   itemHeight: '50px',
   small: '60px',
   medium: '140px',

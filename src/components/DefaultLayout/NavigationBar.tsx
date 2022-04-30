@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { PRACTICE_SECTION, VOCABULARY_SECTION } from '../../utils/constants';
+import { PRACTICE_SECTION, VOCABULARY_SECTION, PHRASES_SECTION } from '../../utils/constants';
 
 import { Tag } from '../../design/components/Tag';
 import { spaces } from '../../design/fixedValues';
 import styled from 'styled-components';
 import { HOME_PAGE_URL } from '../../utils/constants';
 
-const sections = [PRACTICE_SECTION, VOCABULARY_SECTION];
+const sections = [PRACTICE_SECTION, VOCABULARY_SECTION, PHRASES_SECTION];
 
 const SectionBarContainer = styled.div`
   display: flex;

@@ -2,6 +2,7 @@
 
 export const PRACTICE_SECTION = 'Practice';
 export const VOCABULARY_SECTION = 'Vocabulary';
+export const PHRASES_SECTION = 'Phrases';
 
 // URLS
 

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import CircleProgress from '../../components/CircleProgress';
 import { CircleContainer, InfoContainer, TextContainer } from './containers';
 import { colors, measures, spaces } from '../fixedValues';
+import React from 'react';
 
 const Text = styled.p`
   margin: 0 0 ${spaces.tiny} 0;
@@ -23,17 +24,20 @@ interface ILine {
   percentage?: number;
 }
 
-const InfoLine = ({ heading, description, count, percentage }: ILine) => {
+const InfoLine: React.FC<ILine> = ({ heading, description, count, percentage, children }) => {
   return (
-    <InfoContainer flex={true}>
+    <InfoContainer flex>
       <TextContainer>
         <Text>{heading}</Text>
         <SubText>{description}</SubText>
-        <SubText>Total: {count}</SubText>
+        {count && <SubText>Total: {count}</SubText>}
       </TextContainer>
-      <CircleContainer size={'small'}>
-        <CircleProgress appearance={'submit'} percentage={percentage} size={'small'} />
-      </CircleContainer>
+      {percentage && (
+        <CircleContainer size={'small'}>
+          <CircleProgress appearance={'submit'} percentage={percentage} size={'small'} />
+        </CircleContainer>
+      )}
+      {children}
     </InfoContainer>
   );
 };

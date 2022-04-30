@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { colors, spaces, measures } from '../fixedValues';
 
 interface YuiTitleProps {
-  hasFullLength: boolean;
+  hasFullLength?: boolean;
 }
 
 export const YuiTitle = styled.div<YuiTitleProps>`

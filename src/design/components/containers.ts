@@ -11,8 +11,10 @@ export const MainSection = styled.div`
 export const SectionContainer = styled.div<{
   isTopLevel?: boolean;
   isCentered?: boolean;
+  flex?: boolean;
+  scroll?: boolean;
 }>`
-  display: flex;
+  display: ${(props) => (props.flex ? 'flex' : 'block')};
   flex-direction: column;
   justify-content: ${(props) => (props.isCentered ? 'center' : '')};
   align-items: ${(props) => (props.isCentered ? 'center' : '')};
@@ -21,6 +23,7 @@ export const SectionContainer = styled.div<{
   z-index: ${(props) => (props.isTopLevel ? measures.zFirstLevel : 0)};
   box-shadow: ${(props) => (props.isTopLevel ? measures.boxShadow : '')};
   background-color: ${colors.white};
+  overflow: ${(props) => (props.scroll ? 'auto' : 'unset')};
 `;
 
 export type ContainerSizes = 'small' | 'medium' | 'large';
