@@ -1,4 +1,4 @@
-import { InfoContainer, MainSection, SectionContainer } from '../../../design/components/containers';
+import { MainSection, SectionContainer } from '../../../design/components/containers';
 import { YuiTitle, YuiTitleLine } from '../../../design/components/YuiTitle';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -42,12 +42,14 @@ const PhrasesSection = ({ userContent }: SectionProps) => {
 
   useEffect(() => {
     if (searchedValue.phrase.length > 2) {
+      const phrasesThatMatch: PhraseType = {};
       for (const id in phraseList) {
         const phrase = phraseList[id];
-        if (phrase.inEnglish.includes(searchedValue.phrase)) {
-          setPhraseList({ [id]: phrase });
+        if (phrase.inEnglish.toLowerCase().includes(searchedValue.phrase)) {
+          phrasesThatMatch[id] = phrase;
         }
       }
+      setPhraseList(phrasesThatMatch);
     } else {
       setPhraseList(allPhrases);
     }
