@@ -47,4 +47,5 @@ export const ActionButton = styled.button<ButtonProps>`
   width: ${dimensions.buttonWidth};
   height: ${dimensions.buttonWidth};
   font-size: ${measures.actionFontSize};
+  cursor: pointer;
 `;
