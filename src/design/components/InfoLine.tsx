@@ -32,7 +32,7 @@ const InfoLine: React.FC<ILine> = ({ heading, description, count, percentage, ch
         <SubText>{description}</SubText>
         {count && <SubText>Total: {count}</SubText>}
       </TextContainer>
-      {percentage && (
+      {Number.isInteger(percentage) && (
         <CircleContainer size={'small'}>
           <CircleProgress appearance={'submit'} percentage={percentage} size={'small'} />
         </CircleContainer>

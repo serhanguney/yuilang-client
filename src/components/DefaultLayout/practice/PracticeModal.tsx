@@ -72,7 +72,6 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
     if ('categories' in this.props.content.userContent) {
       const selectedPhrases: any = this.props.content.userContent.categories[usersCategorySelection].phrases;
       const type = Math.random() < 0.5 ? 'word' : 'sentence';
-      console.log('preparing exercise with', type);
 
       for (const key in selectedPhrases) {
         const value = selectedPhrases[key];
@@ -122,10 +121,14 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
   }
 
   handleSelect(option: IPayload) {
+    this.props.promptInfoModal({ type: 'empty', message: '' });
     this.setState({ selected: option });
   }
 
   restartExercise() {
+    if (!this.state.selected) {
+      this.props.promptInfoModal({ type: 'info', message: 'Select an answer first' });
+    }
     this.props.restartPractice();
     this.setState({ showNext: false });
     this.prepareExercise();
