@@ -5,7 +5,7 @@ import {
   initialiseAddCategoryRequest,
   PhraseRequestType,
   CategoryRequestType,
-  CategoryRequestProps,
+  BaseProps,
 } from '../../../redux/firebase';
 import { RootState } from '../../../redux/reducer';
 import { ModalItemsType, ModalShowType, setModalItems, showModal, TriggerType, closeModal } from '../../../redux/modal';
@@ -239,7 +239,7 @@ class VocabularySection extends React.Component<VocabularyProps, VocabularyState
     this.setState({ hasPhraseFocus: value });
   }
 
-  async handleModalComplete(ctx: CategoryRequestProps) {
+  async handleModalComplete(ctx: BaseProps) {
     this.props.initialiseAddCategoryRequest(ctx);
     await this.props.getUserData(this.props.user.uid);
     this.props.closeModal();
