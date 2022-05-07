@@ -24,6 +24,7 @@ import { PromptInfoModal, promptInfoModal } from '../../../redux/infoModal';
 
 export interface Option<T> {
   selected: T;
+  description: string;
   options: T[];
 }
 
@@ -61,10 +62,12 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
       selections: {
         category: {
           selected: '',
+          description: 'Choose your category',
           options: this.categories,
         },
         levelOfDifficulty: {
           selected: '',
+          description: `Medium is for phrases practiced below ${difficultyLimits.medium}. <br /> High is for phrases practiced below ${difficultyLimits.high}`,
           options: ['medium', 'high'],
         },
       },
@@ -108,16 +111,6 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
     }
 
     const trigger = this.props.modal.triggeredBy as keyof Selection;
-    // this.setState((prevState) => ({
-    //   ...prevState,
-    //   selections: {
-    //     ...prevState.selections,
-    //     [trigger]: {
-    //       ...prevState.selections[trigger],
-    //       selected: value,
-    //     },
-    //   },
-    // }));
     this.setState({
       ...this.state,
       selections: {
@@ -150,8 +143,8 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
     }
   }
 
-  openMenu(trigger: keyof Selection, value: ValueOf<Selection>) {
-    this.props.setModalItems(value.options, trigger);
+  openMenu(trigger: keyof Selection, options: string[]) {
+    this.props.setModalItems(options, trigger);
     this.props.showModal();
   }
 
@@ -163,7 +156,7 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
       });
       return;
     }
-
+    this.props.promptInfoModal({ type: 'empty', message: '' });
     this.setState({
       showExercise: true,
     });
@@ -177,12 +170,12 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
         {this.props.modal.isModalOpen && <Modal onSelect={this.handleSelection.bind(this)} />}
         <SectionContainer>
           {Object.entries(selections).map((item, index) => {
-            const [key, value] = item;
+            const [key, { selected, options, description }] = item;
             return (
-              <MenuOpener key={index} onClick={() => this.openMenu(key as keyof Selection, value)}>
+              <MenuOpener key={index} onClick={() => this.openMenu(key as keyof Selection, options)}>
                 <div>
-                  <h3>{value.selected ? value.selected : key}</h3>
-                  <p>{key === '' ? `Choose your ${key}` : key}</p>
+                  <h3>{selected ? selected : key}</h3>
+                  <p dangerouslySetInnerHTML={{ __html: description }} />
                 </div>
               </MenuOpener>
             );
