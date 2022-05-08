@@ -9,7 +9,7 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
 }
 export const ButtonContainer = styled.div`
   display: flex;
-  margin: auto ${spaces.large} 0 ${spaces.large};
+  margin: ${spaces.large} ${spaces.large} 0 ${spaces.large};
 `;
 
 export const Button = styled.button<ButtonProps>`
@@ -39,7 +39,9 @@ export const ActionButtonContainer = styled.div<{ isCentered?: boolean }>`
 `;
 
 export const ActionButton = styled.button<ButtonProps>`
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: ${spaces.small};
   background-color: ${(props) => props.theme.getAppearanceColor(props.appearance, 'background')};
   color: ${(props) => props.theme.getAppearanceColor(props.appearance, 'text')};
@@ -49,4 +51,15 @@ export const ActionButton = styled.button<ButtonProps>`
   font-size: ${measures.actionFontSize};
   cursor: pointer;
   flex-shrink: 0;
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+  }
+  svg {
+    width: 12px;
+    height: 12px;
+  }
 `;

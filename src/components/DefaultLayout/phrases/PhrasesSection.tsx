@@ -11,6 +11,8 @@ import { ActionButton } from '../../../design/components/buttons';
 import InfoLine from '../../../design/components/InfoLine';
 import { DeleteRequestProps, initialiseDeleteRequest } from '../../../redux/firebase';
 import { Identity } from '../../../redux/identity';
+import CloseIcon from '../../../icons/close_icon';
+import closeIcon from '../../../icons/close_icon.svg';
 
 type SectionProps = Pick<ContentState, 'userContent'> & {
   initialiseDeleteRequest: (ctx: DeleteRequestProps) => void;
@@ -58,7 +60,7 @@ const PhrasesSection = ({ uid, userContent, initialiseDeleteRequest, ...rest }: 
           data-category={phrase.category}
           onClick={(e) => deletePhrase(e)}
         >
-          -
+          <CloseIcon />
         </ActionButton>
       </InfoLine>
     ));

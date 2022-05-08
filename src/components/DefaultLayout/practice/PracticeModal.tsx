@@ -18,6 +18,7 @@ import Loading from '../../Loading';
 import { Identity } from '../../../redux/identity';
 import styled from 'styled-components';
 import { spaces } from '../../../design/fixedValues';
+import closeIcon from '../../../icons/close_icon.svg';
 
 const QuestionContainer = styled.div`
   display: flex;
@@ -143,10 +144,10 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
 
     return (
       <ModalContainer>
-        <SectionContainer isCentered={true}>
+        <SectionContainer isCentered={true} flex>
           {/*Progress Circle*/}
           <StyledActionButton appearance={'regular'} onClick={() => onClose()}>
-            x
+            <img src={closeIcon} />
           </StyledActionButton>
           <CircleProgress appearance={'regular'} size={'medium'} percentage={this.state.progressPercentage} />
           <QuestionContainer>

@@ -99,7 +99,7 @@ class PracticeSection extends React.Component<PracticeSectionProps, PracticeSect
     }
     this.props.promptInfoModal({
       type: 'error',
-      message: `either minExpectedCapacity(currently ${arrayOfSelectedPhrases.length}) is not reached or selected level of difficulty has no capacity`,
+      message: `Make sure to add at least 20-30 phrases before you start practicing.`,
     });
     return false;
   }

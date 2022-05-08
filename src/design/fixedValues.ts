@@ -37,7 +37,7 @@ export const measures = {
   regularFontSize: '14px',
   largeFontSize: '16px',
   titleFontSize: '20px',
-  actionFontSize: '28px',
+  actionFontSize: '20px',
   highOpacity: 0.6,
   lowOpacity: 0.3,
   zFirstLevel: 9999,
