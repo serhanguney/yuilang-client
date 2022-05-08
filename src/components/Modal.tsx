@@ -2,9 +2,11 @@ import * as React from 'react';
 import { ModalContainer, ModalItem } from '../design/components/Modal';
 import { RootState } from '../redux/reducer';
 import { closeModal, ModalShowType } from '../redux/modal';
+import { PromptInfoModal, promptInfoModal } from '../redux/infoModal';
 import { connect } from 'react-redux';
 import { ActionButtonContainer, ActionButton, Button, ButtonContainer } from '../design/components/buttons';
 import { Identity } from '../redux/identity';
+import CloseIcon from '../icons/close_icon';
 
 interface ModalProps {
   closeModal: ModalShowType;
@@ -13,6 +15,7 @@ interface ModalProps {
   onCompleteEdit: any;
   user: Identity;
   triggeredBy: string;
+  promptInfoModal: PromptInfoModal;
 }
 
 type ModalState = {
@@ -83,6 +86,10 @@ class Modal extends React.Component<ModalProps, ModalState> {
     }));
   }
 
+  componentDidMount() {
+    this.props.promptInfoModal({ type: 'empty', message: '' });
+  }
+
   render(): JSX.Element {
     const { closeModal } = this.props;
     const { isEditable } = this.state;
@@ -91,7 +98,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
       <ModalContainer>
         <ActionButtonContainer>
           <ActionButton appearance={'regular'} onClick={closeModal}>
-            x
+            <CloseIcon />
           </ActionButton>
         </ActionButtonContainer>
         {modalItems.map((item) => {
@@ -132,6 +139,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
 
 const actionCreators = {
   closeModal,
+  promptInfoModal,
 };
 
 const mapStateToProps = (state: RootState) => ({
