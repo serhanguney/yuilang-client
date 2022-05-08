@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { ActionButtonContainer, ActionButton, Button, ButtonContainer } from '../design/components/buttons';
 import { Identity } from '../redux/identity';
 import CloseIcon from '../icons/close_icon';
+import { spaces } from '../design/fixedValues';
 
 interface ModalProps {
   closeModal: ModalShowType;
@@ -126,7 +127,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
           );
         })}
         {this.props.triggeredBy === 'category' && (
-          <ButtonContainer>
+          <ButtonContainer style={{ marginTop: spaces.large }}>
             <Button appearance={'submit'} onClick={this.addModalItem.bind(this)} disabled={!!this.state.isEditable.id}>
               Add new category
             </Button>

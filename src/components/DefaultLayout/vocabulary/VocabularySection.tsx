@@ -88,7 +88,7 @@ class VocabularySection extends React.Component<VocabularyProps, VocabularyState
       isReadyToSubmit: false,
       hasPhraseFocus: false,
     };
-    this.debounceTranslate = debounce(this.setState, 1000);
+    this.debounceTranslate = debounce(this.setState, 200);
   }
 
   componentDidUpdate(prevProps: Readonly<VocabularyProps>, prevState: Readonly<VocabularyState>) {

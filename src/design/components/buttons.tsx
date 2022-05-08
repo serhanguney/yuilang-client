@@ -9,7 +9,7 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
 }
 export const ButtonContainer = styled.div`
   display: flex;
-  margin: ${spaces.large} ${spaces.large} 0 ${spaces.large};
+  margin: auto ${spaces.large} 0 ${spaces.large};
 `;
 
 export const Button = styled.button<ButtonProps>`

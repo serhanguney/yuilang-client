@@ -10,6 +10,5 @@ export const Overlay = styled.div`
   background-color: ${colors.overlay};
   opacity: ${measures.highOpacity};
   z-index: ${measures.zSecondLevel};
-  pointer-events: none;
   transition: all ease-in-out ${measures.transitionFast};
 `;
