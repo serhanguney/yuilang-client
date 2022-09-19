@@ -101,11 +101,10 @@ const assemble = (
 
 export const assembleExercise =
   (allAnswers: any, difficulty: difficultyLiterals, cardOptions: any) => (dispatch: any) => {
-    if (allAnswers.length < practiceCardOptions) {
+    if (Object.keys(allAnswers).length < practiceCardOptions) {
       dispatch(failedToCreateExercise());
     }
     dispatch(attemptToCreateExercise());
-
     const correctAnswers: any = {};
     let countOfCorrectAnswers = 0;
     for (const key in allAnswers) {

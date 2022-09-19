@@ -58,7 +58,7 @@ const InfoModal = ({ type, message, promptInfoModal }: any) => {
     if (message) {
       timer = setTimeout(() => {
         promptInfoModal({ type: 'empty', message: '' });
-      }, 2000);
+      }, 1000);
     }
     return () => clearTimeout(timer);
   }, [message]);

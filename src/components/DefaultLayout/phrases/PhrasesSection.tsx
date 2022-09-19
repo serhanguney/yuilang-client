@@ -70,7 +70,7 @@ const PhrasesSection = ({ uid, userContent, initialiseDeleteRequest, ...rest }: 
       const phrasesThatMatch: PhraseListTypes = {};
       for (const id in phraseList) {
         const phrase = phraseList[id];
-        if (phrase.inEnglish.toLowerCase().includes(searchedValue.phrase)) {
+        if (phrase.inEnglish.toLowerCase().includes(searchedValue.phrase.toLowerCase())) {
           phrasesThatMatch[id] = phrase;
         }
       }
@@ -92,7 +92,7 @@ const PhrasesSection = ({ uid, userContent, initialiseDeleteRequest, ...rest }: 
         <UserInput
           value={searchedValue.phrase}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearch(e)}
-          name={'search phrase'}
+          name={'search phrase in english'}
           aria-label={'search'}
         />
       </SectionContainer>

@@ -22,6 +22,7 @@ const Input = styled.input`
   padding: ${spaces.small};
   border: none;
   border-bottom: 1px solid ${colors.black};
+  border-radius: 0;
   outline: none;
 `;
 

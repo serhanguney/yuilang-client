@@ -181,7 +181,8 @@ class VocabularySection extends React.Component<VocabularyProps, VocabularyState
       const content = this.props.content.userContent as DatabaseModel;
       const category = this.state.selections.category.value;
       const categoryCount = content.categories[category].practiceCount;
-      const phrase = this.state.to === 'czech' ? this.state.translatedPhrase : this.state.phrase;
+      const phrase =
+        this.state.to === 'czech' ? this.state.translatedPhrase.toLowerCase() : this.state.phrase.toLowerCase();
 
       await this.props.initialiseAddPhraseRequest({
         uid: this.props.user.uid,
@@ -277,8 +278,8 @@ class VocabularySection extends React.Component<VocabularyProps, VocabularyState
           <ChooseLanguage handleSwitch={this.handleSwitch} to={this.state.to} from={this.state.from} />
           <EnterPhrase
             handleChange={this.handleChange}
-            translatedPhrase={this.state.translatedPhrase}
-            phrase={this.state.phrase}
+            translatedPhrase={this.state.translatedPhrase.toLowerCase()}
+            phrase={this.state.phrase.toLowerCase()}
             isTypingDisabled={isTypingDisabled}
             bringFocus={this.handleBringFocus.bind(this)}
           />
