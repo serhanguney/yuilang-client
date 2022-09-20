@@ -13,8 +13,7 @@ export const ButtonContainer = styled.div`
 `;
 
 export const Button = styled.button<ButtonProps>`
-  background-color: ${(props) =>
-    props.theme.getAppearanceColor(props.appearance, props.onTouch ? 'text' : 'background')};
+  background-color: ${(props) => props.theme.getAppearanceColor(props.appearance, 'background')};
   flex-grow: 1;
   padding: ${spaces.medium} ${spaces.small};
   margin: 0 ${spaces.small};
@@ -26,7 +25,8 @@ export const Button = styled.button<ButtonProps>`
   &:disabled {
     background-color: ${(props) => props.theme.getAppearanceColor('regular', 'background')};
   }
-  &:focus {
+  &:focus,
+  &:active {
     background-color: ${(props) => props.theme.getAppearanceColor(props.appearance, 'text')};
     color: ${(props) => props.theme.getAppearanceColor(props.appearance, 'background')};
   }
