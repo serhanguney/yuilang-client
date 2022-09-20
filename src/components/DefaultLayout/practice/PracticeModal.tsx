@@ -166,7 +166,7 @@ class PracticeModal extends React.Component<PracticeModalProps, any> {
         {exercise.options.map((option: any) => (
           <StyledButtonContainer key={option.phrase.inEnglish}>
             <Button
-              onTouch={this.state.selected === option}
+              $onTouch={this.state.selected === option}
               appearance={'regular'}
               onClick={() => this.handleSelect(option)}
             >
