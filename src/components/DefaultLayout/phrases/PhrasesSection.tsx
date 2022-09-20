@@ -36,13 +36,12 @@ const PhrasesSection = ({ uid, userContent, initialiseDeleteRequest, ...rest }: 
   const [phraseList, setPhraseList] = useState<PhraseListTypes>(allPhrases);
 
   async function deletePhrase(e: React.MouseEvent<HTMLButtonElement>) {
-    const target = e.target as HTMLButtonElement;
-    if (!target.dataset.id || !target.dataset.category) {
-      console.warn('id missing');
+    const id = e.currentTarget.getAttribute('data-id');
+    const category = e.currentTarget.getAttribute('data-category');
+    if (!id || !category) {
+      console.warn('id or category is missing', id, category);
     }
-    const phraseID: string = target.dataset.id!;
-    const category: string = target.dataset.category!;
-    await initialiseDeleteRequest({ uid, language: 'cs', phraseID, category });
+    await initialiseDeleteRequest({ uid, language: 'cs', phraseID: id ?? '', category: category ?? '' });
   }
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
@@ -52,7 +51,7 @@ const PhrasesSection = ({ uid, userContent, initialiseDeleteRequest, ...rest }: 
     const arrayOfPhrases = Object.entries(phrases);
 
     return arrayOfPhrases.map(([id, phrase]) => (
-      <InfoLine heading={phrase.inEnglish} description={phrase.phrase}>
+      <InfoLine key={phrase.phrase} heading={phrase.inEnglish} description={phrase.phrase}>
         <ActionButton
           appearance={'cancel'}
           data-id={id}
